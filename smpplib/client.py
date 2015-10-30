@@ -309,7 +309,8 @@ class Client(object):
             try:
                 if pipe and pipe_callback:
                     pipe_callback(pipe.recv())
-            except:
+            except exceptions.PDUError, e:
+                logging.warning('(%d) %s. SMS send catch.' % (e.args[1], e.args[0]))
                 continue
 
     def send_message(self, **kwargs):
