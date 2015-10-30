@@ -270,11 +270,7 @@ class Client(object):
         """Listen for PDUs and act"""
 
         while True:
-            try:
-                if pipe and pipe_callback:
-                    pipe_callback(pipe.recv())
-            except:
-                continue
+
             try:
                 try:
                     p = self.read_pdu()
@@ -310,6 +306,11 @@ class Client(object):
                         (e.args[1], e.args[0]))
                 else:
                     raise
+            try:
+                if pipe and pipe_callback:
+                    pipe_callback(pipe.recv())
+            except:
+                continue
 
     def send_message(self, **kwargs):
         """Send message
