@@ -266,10 +266,15 @@ class Client(object):
         May be overridden"""
         logger.warning('Message sent handler (Override me)')
 
-    def listen(self, ignore_error_codes=None):
+    def listen(self, pipe=None, pipe_callback=None, ignore_error_codes=None):
         """Listen for PDUs and act"""
 
         while True:
+            try:
+                if pipe and pipe_callback:
+                    pipe_callback(pipe.recv())
+            except:
+                continue
             try:
                 try:
                     p = self.read_pdu()
